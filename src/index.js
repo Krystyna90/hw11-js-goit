@@ -67,6 +67,15 @@ function onSearchBtnClick(e) {
         Notiflix.Notify.success(`We found ${picturesApiService.totalHits} for you!`);
         refs.photoGallery.insertAdjacentHTML('beforeend', markUpPictures(images));
         lightbox.refresh();
+
+        const { height: cardHeight } = document
+        .querySelector('.gallery')
+        .firstElementChild.getBoundingClientRect();
+
+      window.scrollBy({
+        top: cardHeight * 2,
+        behavior: 'smooth',
+      });
       }
 
       if (picturesApiService.totalHits === 0) {
