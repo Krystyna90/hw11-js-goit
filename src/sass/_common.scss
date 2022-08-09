@@ -1,1 +1,35 @@
 @import '~node_modules/modern-normalize/modern-normalize.css';
+.search-form{
+  padding-top: 15px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.gallery{
+  display: flex;
+  flex-wrap: wrap;
+}
+.gallery__item{
+  margin-right:5px;
+}
+.info{
+  display: flex;
+}
+.info-item{
+  display: flex;
+  font-size: 12px;
+  margin-right: 7px;
+}
+.info-b{
+  font-weight: lighter;
+}
+.load-more{
+  margin: 0 auto;
+  display: block;
+  width: 200px;
+  height: 50px;
+  margin-bottom: 15px;
+}
+.photo-card{
+  margin-bottom: 15px;
+}
