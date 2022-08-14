@@ -12,16 +12,17 @@
         autocomplete="off"
         placeholder="Search images..."
       />
-      <button type="submit">Search</button>
+      <button class="search-button" type="submit">Search</button>
     </form>
-    <div class="gallery"></div>
-    <button type="button" class="load-more">Load more</button>
+    <div class="container">
+      <div class="gallery"></div>
+      <button type="button" class="load-more">Load more</button>
+      <p class="end-warning is-hidden">
+        You have reached the end of collection
+      </p>
+    </div>
 
     <script type="module" src="./index.js"></script>
-    <script type="module" src="./fetchPhotos.js"></script>
   </head>
-  <body>
-    <!-- ❗️❗️❗️ Add partials like so for every page -->
-    <!-- <include src="./partials/example.html"></include> -->
-  </body>
+  <body></body>
 </html>

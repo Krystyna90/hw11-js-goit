@@ -1,4 +1,5 @@
-import Notiflix from "notiflix";
+import axios from "axios";
+
 export default class PicturesAPIService{
   constructor() {
     this.name = '';
@@ -6,12 +7,12 @@ export default class PicturesAPIService{
     this.totalHits = 0;
     this.hits = 0;
   }
-  fetchPictures() {
+    async fetchPictures() {
     const url = `https://pixabay.com/api/?key=29099820-015ce301a6c1b4fc2f744a348&q=${this.name}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`;
 
-return fetch(url)
-    .then(response => response.json())
-  .then(({hits, totalHits})=> {
+return await axios.get(url)
+  .then(response =>response.data)
+  .then(({ hits, totalHits }) => {
     this.page += 1;
     this.totalHits = totalHits;
     this.hits = hits;
