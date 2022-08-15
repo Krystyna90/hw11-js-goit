@@ -4,20 +4,19 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import PicturesAPIService from "./pictures-api";
 import markUpPictures from "./mark-up-pictures";
 
-
 const refs = {
   form: document.querySelector('.search-form'),
   photoGallery: document.querySelector('.gallery'),
-  loadMoreBtn: document.querySelector('.load-more'),
+  // loadMoreBtn: document.querySelector('.load-more'),
   input: document.querySelector('input[name="searchQuery"]'),
   end: document.querySelector('.end-warning'),
 }
 
 refs.form.addEventListener('submit', onSearchBtnClick);
-refs.loadMoreBtn.addEventListener('click', onLoadMoreBtnClick);
+// refs.loadMoreBtn.addEventListener('click', onLoadMoreBtnClick);
 
 const picturesApiService = new PicturesAPIService();
-refs.loadMoreBtn.classList.add('is-hidden');
+// refs.loadMoreBtn.classList.add('is-hidden');
 let currentHits = 0;
 
 let lightbox = new SimpleLightbox('.photo-card a', {
@@ -41,7 +40,7 @@ async function onSearchBtnClick(e) {
       Notiflix.Notify.success(`We found ${picturesApiService.totalHits} for you!`);
       refs.photoGallery.insertAdjacentHTML('beforeend', markUpPictures(picturesApiService.hits));
       lightbox.refresh();
-        refs.loadMoreBtn.classList.remove('is-hidden');
+        // refs.loadMoreBtn.classList.remove('is-hidden');
       currentHits = fetchPictures.length;
 
       const { height: cardHeight } = document
@@ -58,32 +57,46 @@ async function onSearchBtnClick(e) {
       clearImageContainer();
       Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
     }
-
-    if (picturesApiService.totalHits < picturesApiService.perPage) {
-      refs.loadMoreBtn.classList.add('is-hidden');
-    }
+    // if (picturesApiService.totalHits < picturesApiService.perPage) {
+    //    refs.loadMoreBtn.classList.add('is-hidden');
+    //  }
   }
-
   catch {
     Notiflix.Notify.error('There is some error');
   }
 }
 
-async function onLoadMoreBtnClick(e) {
-  const fetchPictures = await picturesApiService.fetchPictures();
-  currentHits += fetchPictures.length;
- refs.photoGallery.insertAdjacentHTML('beforeend', markUpPictures(picturesApiService.hits));
-  lightbox.refresh();
-  console.log(currentHits, picturesApiService.totalHits);
-  if (currentHits > picturesApiService.totalHits) {
-    refs.end.classList.remove('is-hidden');
-    refs.loadMoreBtn.classList.add('is-hidden');
-  };
-  }
-
 function clearImageContainer() {
 refs.photoGallery.innerHTML = '';
 }
 
+window.addEventListener('scroll', onScrollEvent);
+
+function onScrollEvent() {
+const documentRect = document.documentElement.getBoundingClientRect();
+  if (documentRect.bottom < document.documentElement.clientHeight + 150) {
+    const fetchPictures = picturesApiService.fetchPictures();
+    currentHits += picturesApiService.hits.length;
+    refs.photoGallery.insertAdjacentHTML('beforeend', markUpPictures(picturesApiService.hits));
+    lightbox.refresh();
+     if (currentHits > picturesApiService.totalHits) {
+      refs.end.classList.remove('is-hidden');
+      window.removeEventListener('scroll', onScrollEvent);
+    };
+  };
+}
+
+
+// async function onLoadMoreBtnClick(e) {
+
+//   const fetchPictures = await picturesApiService.fetchPictures();
+//   currentHits += fetchPictures.length;
+//   refs.photoGallery.insertAdjacentHTML('beforeend', markUpPictures(picturesApiService.hits));
+//    lightbox.refresh();
+//   if (currentHits > picturesApiService.totalHits) {
+//       refs.end.classList.remove('is-hidden');
+//   // refs.loadMoreBtn.classList.add('is-hidden');
+//    };
+//  }
 
 

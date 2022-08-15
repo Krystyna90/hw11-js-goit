@@ -152,37 +152,17 @@ input{
 }
 
 .load-more{
-  width: 200px;
-  height: 40px;
-
-    margin-top: 50px;
-    margin-bottom: 30px;
-    margin-left: 50%;
-    transform: translateX(-50%);
-
-    font-size: 16px;
-
-    border: none;
-    border-radius: 5px;
-
-    cursor: pointer;
-    transition: background-color 300ms linear, color 300ms linear;
-
-    &:hover,
-    &:focus {
-      background-color: #fc0fc0;
-      color: #ffffff;
-    }
+background-color: #ffffff;
 }
 .is-hidden{
   display: none;
 }
 
-.end-warning{
+ .end-warning{
     margin: 30px 0 30px 0;
       text-align: center;
       font-size: 20px;
       font-style: italic;
       font-weight: bold;
       color:#fc0fc0;
-}
+ }
