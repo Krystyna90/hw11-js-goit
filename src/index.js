@@ -2,6 +2,8 @@ import Notiflix from "notiflix";
 import SimpleLightbox from "simplelightbox";
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import PicturesAPIService from "./pictures-api";
+import markUpPictures from "./mark-up-pictures";
+
 
 const refs = {
   form: document.querySelector('.search-form'),
@@ -17,36 +19,6 @@ refs.loadMoreBtn.addEventListener('click', onLoadMoreBtnClick);
 const picturesApiService = new PicturesAPIService();
 refs.loadMoreBtn.classList.add('is-hidden');
 let currentHits = 0;
-
-function markUpPictures(images) {
-  return images.map(({webformatURL, largeImageURL, tags, likes,views,comments,downloads}) => {
-    return `
-        <div class="photo-card">
-  <a href="${largeImageURL}">
-  <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-  </a>
-   <div class="info">
-   <p class="info-item">
-    <b>Likes:</b>
-    ${likes}
-    </p>
-     <p class="info-item">
-     <b>Views:</b>
-     ${views}
-     </p>
-     <p class="info-item">
-     <b>Comments:</b>
-     ${comments}
-     </p>
-     <p class="info-item">
-       <b>Downloads:</b>
-       ${downloads}
-       </p>
-   </div>
-</div>`;
-    })
-        .join('');
-}
 
 let lightbox = new SimpleLightbox('.photo-card a', {
   captions: true,
@@ -85,6 +57,10 @@ async function onSearchBtnClick(e) {
     if (picturesApiService.totalHits === 0) {
       clearImageContainer();
       Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+    }
+
+    if (picturesApiService.totalHits < picturesApiService.perPage) {
+      refs.loadMoreBtn.classList.add('is-hidden');
     }
   }
 
